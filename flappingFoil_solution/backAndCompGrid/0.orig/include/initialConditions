@@ -1,0 +1,19 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+flowVelocity         (0.1 0 0);	  // freestream velocity
+pressure             0;	          // kinematic ref pressure
+chord		     0.03;	  // chord length
+length		     0.06; 	  // plate length
+f		     0.96;        // frequency
+ha                  (0 0.0175 0); // airfoil heaving amplitude
+hp                  (0 5.14 0);   // plate deforming amplitude
+a0                  (0 0.6168 0);
+a1                  (0 -0.037008 0);
+
+// ************************************************************************* //

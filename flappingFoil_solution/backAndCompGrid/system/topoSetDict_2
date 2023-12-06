@@ -1,0 +1,54 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    // Define a cellSet with all the cells inside the grid that contains the insidePoint
+    // Defined it as the background grid
+    {
+        name    background;
+        type    cellSet;
+        action  new;
+        source  regionToCell;
+        insidePoints ((-0.125 0 0.0005)); 
+    }
+    // Make a copy of the previous cellSet and call its component grid
+    {
+        name    component;
+        type    cellSet;
+        action  new;
+        source  cellToCell;
+        set     background;
+    }
+    // Invert operation: component grid takes all the cells except the ones of the background grid
+    {
+        name    component;
+        type    cellSet;
+        action  invert;
+    }
+    // Create a cell zone that contains the component grid cells (cell zone used in dynamicMeshDict)
+    {
+     name    movingZone;
+     type    cellZoneSet;
+     action  subset;
+     source setToCellZone;
+     sourceInfo
+     {
+        set component;           
+     }
+    }
+
+);

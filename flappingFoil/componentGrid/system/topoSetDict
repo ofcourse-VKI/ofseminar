@@ -1,0 +1,48 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(      
+// 1. Create a set of faces (faceSet) that contains
+// all the faces that form the wing's plate
+       {
+         name    //!FILL HERE! // Define a name
+         type    //!FILL HERE! // Define the type
+         action  new;          // new set  
+         source  boxToFace;    // Create a thin box that include the plate location
+         sourceInfo
+         {  
+            // Define the extreme points of the box
+           // !FILL HERE!  // e.g. box (xmin ymin zmin) (xmax ymax zmax)
+         }
+       }
+
+// 2. Convert this faceSet into a faceZoneSet
+        {
+          name    //!FILL HERE! // Define a name
+          type    //!FILL HERE! // Define the type
+          action  new;
+          source  setToFaceZone;
+          sourceInfo
+          {
+            // Use the type and name of the faceSet defined in the previous action
+           // !FILL HERE!
+          }
+        }
+);   
+
+// ************************************************************************* //

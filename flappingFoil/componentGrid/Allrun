@@ -1,0 +1,12 @@
+#!/bin/sh
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+# Generate the grid with blockMesh
+runApplication blockMesh
+
+# Define a face zone containing the plate
+runApplication topoSet
+
+# Convert this face zone into a baffle type. The latter type can be easily adressed in the boundary conditions (0 directory)
+runApplication createBaffles -overwrite

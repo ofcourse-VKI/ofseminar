@@ -1,0 +1,228 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.0.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// All quantities are set in mm; convertToMeters make the transformation from mm to m
+convertToMeters 0.001;
+
+/*
+Reference dimensions
+*/
+c 30.0;           		// chord length
+l 60.0;				// plate length
+x_airfoil 4.784764;             // arbitrary x-noise point, dividing the airfoil in a nose and tail section
+y_airfoil 4.5310;               // arbitrary y-noise point
+alpha 1.29;       		// angle btween the horizontal and the normal of the airoil at the point (x_airfoil,y_airfoil)
+alpha_te 1.149;			// angle btween the horizontal and the normal taken at the airoil TE
+d #eval "$c / sin($alpha_te)";	// distance from the component grid (CG) boundary to the airfoil TE, taken normally at the airfoil TE
+x0 0;   			// x-origin
+y0 0;				// y-origin
+dm #eval "-$d";	
+
+/*
+y-coordinates defined from the reference dimensions
+*/
+y1       $y_airfoil;                 // end of the airfoil nose
+y2 #eval "-$y_airfoil";              //                                            
+y5 #eval "$c+$y0";                   // CG boundary around the plate
+y6 #eval "-$y5";                     // 
+y7 #eval "$y1 +sin($alpha)*$d";      // CG boundary taken normally to point (x_airfoil,y_airfoil)
+y8 #eval "-$y7";                     // 
+
+
+/*
+x-coordinates defined from the reference dimensions
+*/
+x1 $x_airfoil; 					// end of the airfoil nose
+x2 $c; 						// airfoil TE
+x4 #eval "($x1-cos($alpha)*$d)"; 		// CG booundary taken normally to point (x_airfoil,y_airfoil)
+x3 #eval "$c + $l"; 				// plate TE
+x5 #eval "2*$c + $l"; 				// extreme point of the component grid
+x6 #eval "$x2+(1/tan($alpha_te))*($y5 - $y0)"; 	// CG boundary taken normally to the airfoil TE
+x7 #eval "$x5+2*$c"; 				// not used here 
+x8 #eval "-$d";
+
+/*
+z-coordinate: z thickness has no importance for this 2D computation
+*/
+z0 0;
+z1 1;
+
+/*
+Number of cells 
+*/
+Ny1 30; 
+Nx1 30; 
+Nx3 20; 
+Nx4 15; 
+Nx5 12; 
+
+/*
+Grading 
+*/
+n11 18;
+n1 #eval "1/$n11";
+n22 15;
+n2 #eval "1/$n22";
+
+vertices
+(
+   ($x2 $y0 $z0) // 0
+   ($x3 $y0 $z0) // 1
+   ($x5 $y0 $z0) // 2
+   ($x5 $y5 $z0) // 3 
+   ($x3 $y5 $z0) // 4 
+   ($x6 $y5 $z0) // 5 
+   ($x1 $y1 $z0) // 6
+
+   ($x0 $y0 $z0) // 7
+   ($x1 $y2 $z0) // 8
+   ($x2 $y0 $z1) // 9
+   ($x3 $y0 $z1) // 10
+   ($x5 $y0 $z1) // 11
+   ($x5 $y5 $z1) // 12
+   ($x3 $y5 $z1) // 13
+
+   ($x6 $y5 $z1) // 14
+   ($x1 $y1 $z1) // 15
+   ($x0 $y0 $z1) // 16
+   ($x1 $y2 $z1) // 17
+
+   ($x4 $y8 $z0) // 18
+   ($x6 $y6 $z0) // 19
+   ($x3 $y6 $z0) // 20
+   ($x5 $y6 $z0) // 21
+   ($x7 $y6 $z0) //point 22 not used here
+   ($x7 $y0 $z0) //point 23 not used here
+   ($x7 $y5 $z0) //point 24 not used here
+   
+   ($x5 $y6 $z1) //  25
+   ($x3 $y6 $z1) //  26
+   ($x6 $y6 $z1) //  27
+   ($x4 $y8 $z1) //  28
+   ($x4 $y7 $z0) //  29
+   ($x4 $y7 $z1) //  30
+
+   ($x8 $y0 $z0) // 31 outlet point 
+   ($x8 $y0 $z1) // 32 outlet point
+);
+
+
+blocks
+(  
+  // Blocks around the plate
+  hex (19 20 1 0 27 26 10 9)  movingZone ($Nx1 $Ny1 1) simpleGrading (1 $n1 1)   //block 0 below the plate
+  hex (20 21 2 1 26 25 11 10) movingZone ($Nx4 $Ny1 1) simpleGrading (1 $n1 1)   //block 1 
+  hex (1 2 3 4 10 11 12 13)   movingZone ($Nx4 $Ny1 1) simpleGrading (1 $n11 1)  //block 2 above the plate
+  hex (0 1 4 5 9 10 13 14)    movingZone ($Nx1 $Ny1 1) simpleGrading (1 $n11 1)  //block 3 
+
+  // Blocks around the airoil
+  hex (6 0 5 29 15 9 14 30)   movingZone ($Nx3 $Ny1 1) simpleGrading (1 $n11 1)  //block 4  around the airfoil
+  hex (29 31 7 6 30 32 16 15) movingZone ($Nx5 $Ny1 1) simpleGrading (1 $n1 1)   //block 5  around the airfoil
+  hex (31 18 8 7 32 28 17 16) movingZone ($Nx5 $Ny1 1) simpleGrading (1 $n1 1)   //block 6  around the airfoil
+  hex (18 19 0 8 28 27 9 17)  movingZone ($Nx3 $Ny1 1) simpleGrading (1 $n1 1)   //block 7  around the airfoil
+);
+
+edges
+( 
+// Edges of the component boundary around the airfoil
+// y>0
+#include "edges/nose_z0_ypos.txt" 
+#include "edges/nose_z1_ypos.txt" 
+#include "edges/tail_z0_ypos.txt" 
+#include "edges/tail_z1_ypos.txt" 
+// y<0
+#include "edges/nose_z0_yneg.txt" 
+#include "edges/nose_z1_yneg.txt" 
+#include "edges/tail_z0_yneg.txt" 
+#include "edges/tail_z1_yneg.txt"  
+// Edges of the airfoil profile
+// y>0
+#include "edges/noseNACA_z0_ypos.txt" 
+#include "edges/noseNACA_z1_ypos.txt" 
+#include "edges/tailNACA_z0_ypos.txt" 
+#include "edges/tailNACA_z1_ypos.txt" 
+// y<0
+#include "edges/noseNACA_z0_yneg.txt" 
+#include "edges/noseNACA_z1_yneg.txt" 
+#include "edges/tailNACA_z0_yneg.txt" 
+#include "edges/tailNACA_z1_yneg.txt" 
+);
+
+boundary
+(
+    oversetPatch
+    {
+        type overset;
+        faces ((3 2 12 11)
+               (2 21 11 25)
+               (3 4 12 13)
+               (4 5 13 14)
+               (5 29 14 30)
+               (29 31 30 32)
+               (31 18 32 28)
+               (18 19 27 28)
+               (19 20 26 27)
+               (20 21 25 26)
+                );
+    }
+
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (19 20 1 0)   
+            (20 21 2 1)   
+            (1 2 3 4)     
+            (0 1 4 5)     
+            (6 0 5 29)    
+            (31 7 6 29)   
+            (18 8 7 31)   
+            (18 19 0 8)   
+            //back
+            (27 26 10 9)  
+            (26 25 11 10) 
+            (10 11 12 13) 
+            (9 10 13 14)  
+            (15 9 14 30)  
+            (32 16 15 30) 
+            (28 17 16 32) 
+            (28 27 9 17)  
+        );
+    }
+    
+ 
+    
+ airFoil
+    { type wall;
+      faces
+      (
+      (6 0 15 9)
+      (6 7 15 16)
+      (7 8 16 17)
+      (8 0 17 9)  
+      );
+    }
+
+);
+
+mergePatchPairs
+(
+);
+
+
+// ************************************************************************* //

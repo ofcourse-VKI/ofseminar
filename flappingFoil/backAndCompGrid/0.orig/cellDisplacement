@@ -1,0 +1,55 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      cellDisplacement;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    //#includeEtc "caseDicts/setConstraintTypes"
+    oversetPatch
+    {
+        patchType       overset;
+	type zeroGradient; //if tou ever change the motion of your OversetPatch and you put zeroGradient, you MUST also change it in here
+        //by leaving the patchType  overset but changing the type in zeroGradient. :)
+        //type            cellMotion;
+        //value           uniform (0 0 0);	
+    }
+    airFoil 
+    {
+  	type            cellMotion;
+        value           uniform (0 0 0);
+    }
+    flatPlate_master
+    {
+        type            cellMotion;
+        value           uniform (0 0 0);
+    }
+    flatPlate_slave
+    {
+        type            cellMotion;
+        value           uniform (0 0 0);
+    }
+
+    ".*"
+    {
+        type            uniformFixedValue;
+        uniformValue    (0 0 0);
+    }
+}
+
+// ************************************************************************* //

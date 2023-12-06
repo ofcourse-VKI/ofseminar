@@ -1,0 +1,16 @@
+#!/bin/sh
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+runApplication blockMesh
+runApplication topoSet -dict system/topoSetDict_1
+mv log.topoSet  log.topoSetDict_1
+runApplication refineMesh -overwrite
+
+# Add the cylinder mesh
+runApplication mergeMeshes . ../componentGrid -overwrite
+rm -r 0
+cp -r 0.orig 0
+runApplication topoSet -dict system/topoSetDict_2
+
+runApplication setFields 

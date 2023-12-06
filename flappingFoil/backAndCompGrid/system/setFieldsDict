@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      setFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// this file attributes an ID to the component and background grids, which allows to better call them separately 
+defaultFieldValues
+(
+    volScalarFieldValue zoneID 0
+);
+
+regions
+(
+    
+    cellToCell
+    {
+        set component;
+
+        fieldValues
+        (
+            volScalarFieldValue zoneID 1
+        );
+    }
+
+    cellToCell
+    {
+        set background;
+
+        fieldValues
+        (
+            volScalarFieldValue zoneID 0
+        );
+    }
+
+);
+
+// ************************************************************************* //

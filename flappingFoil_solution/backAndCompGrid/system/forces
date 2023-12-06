@@ -1,0 +1,125 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.0                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+// Forces
+airFoil_forces
+{ 
+     type          forces;
+
+     libs          ("libforces.so");
+
+     writeControl  timeStep;
+     timeInterval  5;
+
+     log           yes;
+
+     patches       ("airFoil");
+     rho           rhoInf;     // Indicates incompressible
+     log           true;
+     rhoInf        1000; 	// Redundant for incompressible
+     origin (0 0 0);
+     pName p;
+     Uname U;
+     magUInf 0.1;
+     coordinateRotation
+     {
+             type            axesRotation;
+             e3              (0 0 1);
+             e1              (1 0 0);
+     }
+}
+flatPlate_forces
+  {
+     type          forces;
+
+     libs          ("libforces.so");
+
+     writeControl  timeStep;
+     timeInterval  5;
+
+     log           yes;
+
+     patches       ("flatPlate");
+     rho           rhoInf;     // Indicates incompressible
+     log           true;
+     rhoInf        1000; 	// Redundant for incompressible
+     origin (0 0 0);
+     magUInf 0.1;
+     pName p;
+     Uname U;
+     coordinateRotation
+     {
+             type            axesRotation;
+             e3              (0 0 1);
+             e1              (1 0 0);
+     }
+   }
+// Coef
+flatPlate_coef
+   {
+       type          forceCoeffs;
+
+     libs          ("libforces.so");
+
+     writeControl  timeStep;
+     timeInterval  5;
+
+     log           yes;
+
+     patches       ("flatPlate");
+     rho           rhoInf;     // Indicates incompressible
+
+     rhoInf       1000; 	// Redundant for incompressible
+     liftDir     (0 1 0);
+     origin (0 0 0);
+     dragDir     (1 0 0);
+     pitchAxis   (0 0 1);
+     magUInf     0.1;
+     lRef        0.09;
+     Aref        0.00009; //0.01*0.09 where 0.01=(z1-z0) and 0.09=l_plate
+     g               (0 -9.81 0);
+    coordinateRotation
+     {
+             type            axesRotation;
+             e3              (0 0 1);
+             e1              (1 0 0);
+     }
+  }
+airFoil_coef
+  {
+    type          forceCoeffs;
+
+
+     libs          ("libforces.so");
+
+     writeControl  timeStep;
+     timeInterval  5;
+
+     log           yes;
+
+
+     patches       ("airFoil");
+     rho           rhoInf;     // Indicates incompressible
+     log           true;
+     rhoInf        1000; // Redundant for incompressible
+     origin (0 0 0);
+      liftDir     (0 1 0);
+      dragDir     (1 0 0);
+      pitchAxis   (0 0 1);
+      magUInf     0.1;
+      lRef        0.09;
+      Aref        0.00009;
+      g               (0 -9.81 0);
+       coordinateRotation
+     {
+             type            axesRotation;
+             e3              (0 0 1);
+             e1              (1 0 0);
+     }
+   }
+
+// ************************************************************************* //

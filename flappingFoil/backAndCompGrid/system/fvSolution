@@ -1,0 +1,102 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+   "(cellDisplacement|cellDisplacementFinal)"
+    {
+        solver          GAMG;
+        tolerance       1e-6;
+        relTol          0;
+        smoother        GaussSeidel;
+        cacheAgglomeration false;
+        nCellsInCoarsestLevel 10;
+        agglomerator    faceAreaPair;
+        mergeLevels     2;
+    }
+
+    p
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-8;
+        relTol          0.01;
+    }
+    pFinal
+    {
+        $p;
+        relTol          0;
+    }
+
+// for mesh motion
+    pcorr
+    {
+        $pFinal;
+        solver          PCG;
+        preconditioner  DIC;
+    }
+
+    pcorrFinal
+    {
+        $pcorr;
+        relTol          0;
+    }
+
+    "(U|k|epsilon|omega)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
+        relTol          0.01;
+    }
+
+    "(U|k|epsilon|omega)Final"
+    {
+        $U;
+        relTol          0;
+    }
+}
+
+
+PIMPLE
+{
+    momentumPredictor   true;
+    correctPhi          false;  //true;
+    oversetAdjustPhi    false;  // true if closed domain with overset, for continuity
+    nOuterCorrectors    1;
+    nCorrectors         4;
+    nNonOrthogonalCorrectors 0;
+
+    ddtCorr             true;
+
+    pRefPoint          1000;
+    pRefValue         0;
+}
+
+relaxationFactors
+{
+    fields
+    {
+    }
+    equations
+    {
+        ".*"           1;
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,85 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       pointVectorField;
+    object      pointDisplacement;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include        "include/initialConditions"
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{ 
+     oversetPatch
+    {   
+	/*patchType       overset;
+        type zeroGradient;    */ 
+
+	patchType       overset;
+        type heavingAndLinearDeforming;
+	value uniform (0 0 0); 
+	
+	// heaving
+        ha        $ha; 
+	frequency $f;
+
+	// deforming component
+	hp     $hp; 
+	xoff   $chord;
+	a0     (0 0.6168 0);
+	a1     (0 -0.037008 0);
+	length $length;
+       }    
+    airFoil 
+    {
+        type heaving;
+	value uniform (0 0 0); 
+
+        ha        $ha; 
+	frequency $f;
+    }
+    flatPlate_master
+    {   
+        type heavingAndSquareDeforming; 
+	value uniform (0 0 0); 
+	
+	// heaving
+        ha 	  $ha; 
+	frequency $f;
+
+	// deforming 
+	hp   $hp; 
+	xoff $chord;
+    }
+    flatPlate_slave
+    {   
+        type heavingAndSquareDeforming; 
+	value uniform (0 0 0); 
+
+	// heaving
+        ha 	  $ha; 
+	frequency $f;
+
+	// deforming plate
+	hp    $hp; 
+	xoff  $chord; 
+    }
+    ".*"
+    {  
+        type            uniformFixedValue;
+       uniformValue    (0 0 0);
+    }
+}
+
+// ************************************************************************* //

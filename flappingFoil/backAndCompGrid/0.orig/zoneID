@@ -1,0 +1,64 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      zoneID;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 0 0 0 0];
+internalField uniform 0;
+
+//this file is used when you modify the mesh
+//by doing so it also modifies the ID's of the zones so you need to remove the former zoneID, replace it with this blank file and re-run setFields (rm -r dict 0/zoneID this removes
+//cp -r 0/zoneID2 0/zoneID this copies and renames and finally setFields)
+boundaryField
+{
+    overset
+    {
+        type            overset;
+        value           uniform 1;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+    lowerPatch
+    {
+        type            zeroGradient;
+    }
+    upperPatch
+    {
+        type            zeroGradient;
+    }
+    inlet
+    {
+        type            zeroGradient;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    airFoil
+    {
+        type            zeroGradient;
+    }
+    flatPlate_master
+    {
+        type            zeroGradient;
+    }
+    flatPlate_slave
+    {
+        type            zeroGradient;
+    }
+}
+// ************************************************************************* //

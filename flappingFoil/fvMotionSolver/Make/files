@@ -1,0 +1,8 @@
+derivedPoint = pointPatchFields/derived
+
+$(derivedPoint)/heaving/heavingPointPatchVectorField.C
+/*$(derivedPoint)/heavingAndSquareDeforming/heavingAndSquareDeformingPointPatchVectorField.C
+$(derivedPoint)/heavingAndLinearDeforming/heavingAndLinearDeformingPointPatchVectorField.C
+*/
+
+LIB = $(FOAM_USER_LIBBIN)/mylibfvMotionSolvers
