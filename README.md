@@ -24,6 +24,7 @@ Previous seminar topics:
 - "Introduction to the deformable overset method for the simulation of flexible and moving bodies" by Romain Poletti - 06/12/2023
 - "Simulating sloshing dynamics: a practical guide using OpenFOAM" by Dr. Antonio Cantiani - 18/03/2023
 
-Maria Faruoli on behalf of the Liquid Metal and Industrial Flow group of VKI
+_Maria Faruoli on behalf of the Liquid Metal and Industrial Flow group of VKI_
 
+Check who we are online: https://www.vki.ac.be/
 
