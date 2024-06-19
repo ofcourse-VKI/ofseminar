@@ -15,5 +15,5 @@ We want to give different OpenFOAM users/research group/companies the possibilit
 If you are willing to present your research group in a general way (20-30 minutes presentation), let us know on https://github.com/ofcourse-VKI/ofseminar/discussions or sending an e-mail to ofcourse@vki.ac.be
 - A demo or a tutorial session on a test case in OpenFOAM. 
 We are interested in applications, implementations, post-processing tools, meshing strategies, coupling with external software, anything that you want to share with the OpenFOAM community. If you are willing to create a tutorial/demo (about 1 hour), please propose your idea on https://github.com/ofcourse-VKI/ofseminar/discussions/categories/ideas or send an e-mail to ofcourse@vki.ac.be
-We would now do a small survey (you can answer in the chat), to see which are the topic you are most interested in, to define the topic of the next seminar
+
 
