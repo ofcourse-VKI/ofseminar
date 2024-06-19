@@ -6,7 +6,7 @@
 
 ###
 
-We are organizing a series of periodic seminars (abour every 3 months) to share our knowledge and learn from other OpenFOAM users.
+We are organizing a series of periodic online seminars (abour every 3 months) to share our knowledge and learn from other OpenFOAM users.
 
 The events aim to bring together OpenFOAM users as well as those interested in potential applications of the code, both for academic and industrial purposes. 
 
