@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  11
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 493;
+
+boundaryField
+{
+  "(diaph|core|acs|pump)"
+	{
+		type 		zeroGradient;
+	}
+vessel
+	{
+		type 		[...];
+		mode 		[...];
+		q 		    uniform -150.0;
+		value 		$internalField;
+	}
+top
+	{
+		type 		externalWallHeatFluxTemperature;
+		mode 			[...];
+		Ta 			constant 450.0;
+		h 			uniform 10.0;
+		thicknessLayers 	(0.1);
+		kappaLayers 		(45);
+		value 			$internalField;
+	}
+"symmetry.*"
+	{
+		type 			symmetry;
+	}
+
+}
+
+
+// ************************************************************************* //
