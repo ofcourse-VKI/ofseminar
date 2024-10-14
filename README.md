@@ -21,12 +21,12 @@ _Maria Faruoli on behalf of the Liquid Metal and Industrial Flow group of VKI_
 
 Check who we are online: https://www.vki.ac.be/
 ### Next seminar
-Next seminar on **"The Espresso Test Case: Simulating Reactor Thermal-Hydraulics in Openfoam"** will be held on the 4th of July 2024. You can find more information on:
-https://events.vki.ac.be/index.php/von-karman-institute-events-and-lecture-series/openfoam-3rd-seminar-july2024
+Next seminar on **"Sustainable Code Development and Cases Management with OpenFOAM Foundation Release” by Dr. Fabian Schlegel (Helmholtz-Zentrum Dresden-Rossendorf)** and including a Demo on  “Cases Management” by Dr. Ronald Lehnigk (Helmholtz-Zentrum Dresden-Rossendorf) will be held on the 14th of October 2024. 
 
 ### Previous seminar topics
 - _"Introduction to the deformable overset method for the simulation of flexible and moving bodies"_ by Romain Poletti - 06/12/2023
 - _"Simulating sloshing dynamics: a practical guide using OpenFOAM"_ by Dr. Antonio Cantiani - 18/03/2023
+- _"The Espresso Test Case: Simulating Reactor Thermal-Hydraulics in Openfoam"_ by Dr. Maria Faruoli - 04/07/2024
 
 
 
